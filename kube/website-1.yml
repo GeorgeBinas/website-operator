@@ -1,0 +1,7 @@
+apiVersion: vodafone.com/v1
+kind: Website
+metadata:
+  name: website-1
+spec:
+  message: "Hello from my website 1!"
+  replicas: 2

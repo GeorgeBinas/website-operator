@@ -1,0 +1,15 @@
+kubectl create ns website
+
+kubectl apply -f websites.vodafone.com-v1.yml
+kubectl apply -f website-1.yml -n website
+kubectl apply -f website-2.yml -n website
+
+kubectl delete -f website-1.yml -n website
+
+kubectl get deployments,svc,cm,website
+kubectl get website demo -o yml
+
+
+kubectl port-forward svc/demo 8080:80
+
+kubectl edit website demo
