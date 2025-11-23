@@ -1,3 +1,4 @@
+#  kubectl apply -f website-1.yml -n website
 apiVersion: vodafone.com/v1
 kind: Website
 metadata:

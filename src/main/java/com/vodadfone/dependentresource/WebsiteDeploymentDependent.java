@@ -11,6 +11,8 @@ import io.fabric8.kubernetes.api.model.PodTemplateSpecBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
+import java.util.HashMap;
+import java.util.Map;
 
 @KubernetesDependent
 public class WebsiteDeploymentDependent extends CRUDKubernetesDependentResource<Deployment, Website> {
@@ -27,7 +29,11 @@ public class WebsiteDeploymentDependent extends CRUDKubernetesDependentResource<
         WebsiteSpec spec = website.getSpec();
         int replicas = spec.getReplicas() != null ? spec.getReplicas() : 1;
 
-        var labels = java.util.Map.<String, String>of(
+        var messageHash = spec.getMessage() != null ? String.valueOf(spec.getMessage().hashCode()) : "0";
+        var annotations = new HashMap<String, String>();
+        annotations.put("website/config-hash", messageHash);
+
+        var labels = Map.<String, String>of(
             "app", name,
             "app.kubernetes.io/name", name,
             "app.kubernetes.io/managed-by", "website-operator"
@@ -47,6 +53,7 @@ public class WebsiteDeploymentDependent extends CRUDKubernetesDependentResource<
                         new PodTemplateSpecBuilder()
                             .withNewMetadata()
                             .addToLabels(labels)
+                            .addToAnnotations(annotations)
                             .endMetadata()
                             .withSpec(
                                 new PodSpecBuilder()
