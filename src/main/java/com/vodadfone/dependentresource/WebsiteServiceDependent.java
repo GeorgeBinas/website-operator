@@ -8,6 +8,8 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 
+// WebsiteServiceDependent manages the Service resource for each Website.
+// It creates a NodePort service to expose the website pods.
 @KubernetesDependent
 public class WebsiteServiceDependent extends CRUDKubernetesDependentResource<Service, Website> {
 
@@ -17,6 +19,8 @@ public class WebsiteServiceDependent extends CRUDKubernetesDependentResource<Ser
 
     @Override
     protected Service desired(Website website, Context<Website> context) {
+        // Build a Service that selects pods by app label and exposes port 80.
+        // NodePort is used for easy access in local clusters (Minikube/Kind).
         var meta = website.getMetadata();
         String name = meta.getName();
         String namespace = meta.getNamespace();

@@ -21,6 +21,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import java.util.Optional;
 import org.jboss.logging.Logger;
 
+// WebsiteReconciler is the main controller for Website resources.
+// It defines the workflow for managing dependent resources (ConfigMap, Deployment, Service)
+// and handles reconciliation logic for custom Website objects.
 @ApplicationScoped
 @ControllerConfiguration(
     name = "website-controller",
@@ -45,7 +48,6 @@ import org.jboss.logging.Logger;
     )
 })
 public class WebsiteReconciler implements Reconciler<Website> {
-
     Logger logger = Logger.getLogger(WebsiteReconciler.class);
 
     @Override

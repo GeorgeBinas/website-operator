@@ -7,6 +7,8 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 
+// WebsiteConfigMapDependent manages the ConfigMap for each Website.
+// It generates an index.html file with a custom message for nginx to serve.
 @KubernetesDependent
 public class WebsiteConfigMapDependent extends CRUDKubernetesDependentResource<ConfigMap, Website> {
 
@@ -18,6 +20,8 @@ public class WebsiteConfigMapDependent extends CRUDKubernetesDependentResource<C
 
     @Override
     protected ConfigMap desired(Website website, Context<Website> context) {
+        // Build a ConfigMap containing index.html with a custom message.
+        // Used by nginx pods to display the website homepage.
         var meta = website.getMetadata();
         var name = meta.getName() + "-" + NAME_SUFFIX;
         var namespace = meta.getNamespace();

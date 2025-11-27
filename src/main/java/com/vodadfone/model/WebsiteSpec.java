@@ -4,15 +4,15 @@ public class WebsiteSpec {
 
     /**
      * Message rendered on the nginx index.html
+     * This is a user-defined string shown on the website homepage.
      */
     private String message;
 
     /**
      * Number of nginx replicas
+     * Controls how many pods will be created for this website.
      */
     private Integer replicas = 1;
-
-    // getters & setters
 
     public String getMessage() {
         return message;

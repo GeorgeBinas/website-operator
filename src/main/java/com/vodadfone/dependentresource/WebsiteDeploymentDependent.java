@@ -14,6 +14,8 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDep
 import java.util.HashMap;
 import java.util.Map;
 
+// WebsiteDeploymentDependent manages the Deployment resource for each Website.
+// It creates a Deployment for nginx pods, using the Website spec for replicas and message.
 @KubernetesDependent
 public class WebsiteDeploymentDependent extends CRUDKubernetesDependentResource<Deployment, Website> {
 
@@ -23,6 +25,7 @@ public class WebsiteDeploymentDependent extends CRUDKubernetesDependentResource<
 
     @Override
     protected Deployment desired(Website website, Context<Website> context) {
+        // Build a Deployment for nginx pods, with labels and config hash for updates.
         var meta = website.getMetadata();
         String name = meta.getName();
         String namespace = meta.getNamespace();
